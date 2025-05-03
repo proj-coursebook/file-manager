@@ -1,6 +1,6 @@
-# FileManager Module
+# File Manager
 
-The FileManager Module is an essential component of ContentSmith, another package I wrote. The FileManager is responsible for all file system operations in ContentSmith. It handles reading files from a source directory and writing processed files to a destination directory.
+A minimal package that abstracts reading files from a source directory and writing processed files to a destination directory.
 
 ## Features
 
