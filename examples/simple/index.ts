@@ -1,4 +1,7 @@
-import { FileManagerImpl } from "@coursebook/file-manager";
+import {
+  FileManagerImpl,
+  type FileDataCollection,
+} from "@coursebook/file-manager";
 
 const fileManager = new FileManagerImpl();
 
@@ -9,7 +12,7 @@ fileManager.setShouldClean(true);
 fileManager.setIgnorePatterns(["*.tmp", "*.log"]);
 
 // Read files
-const files = await fileManager.readFiles();
+const files: FileDataCollection = await fileManager.readFiles();
 
 // Process files...
 

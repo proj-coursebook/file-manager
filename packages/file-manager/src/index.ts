@@ -15,7 +15,7 @@ import { LogManagerImpl, Logger } from "@coursebook/simple-logger";
 /**
  * Implementation of the FileManager component
  */
-export class FileManagerImpl implements FileManager {
+class FileManagerImpl implements FileManager {
   private config: FileManagerConfig;
   private logger: Logger;
 
@@ -233,3 +233,16 @@ export class FileManagerImpl implements FileManager {
     }
   }
 }
+
+// Export types for external usage
+export type {
+  FileManager,
+  FileDataCollection,
+  FileManagerConfig,
+  FileEntry,
+  ReadResult,
+  FileManagerErrorType,
+};
+
+// Export the FileManager implementation and error class
+export { FileManagerImpl, FileManagerError };

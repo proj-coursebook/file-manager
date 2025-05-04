@@ -62,18 +62,21 @@ setShouldClean(clean: boolean): void
 ## Usage
 
 ```typescript
-import { FileManagerImpl } from '@coursebook/file-manager';
+import {
+  FileManagerImpl,
+  type FileDataCollection,
+} from "@coursebook/file-manager";
 
 const fileManager = new FileManagerImpl();
 
 // Configure
-fileManager.setSourceDir('./src');
-fileManager.setDestDir('./dist');
+fileManager.setSourceDir("./source-folder");
+fileManager.setDestDir("./distination-folder");
 fileManager.setShouldClean(true);
-fileManager.setIgnorePatterns(['*.tmp', '*.log']);
+fileManager.setIgnorePatterns(["*.tmp", "*.log"]);
 
 // Read files
-const files = await fileManager.readFiles();
+const files: FileDataCollection = await fileManager.readFiles();
 
 // Process files...
 
@@ -146,7 +149,7 @@ There are three ways to use this package locally:
 3. Import the package in your project:
 
    ```typescript
-   import { example, Person } from '@coursebook/file-manager';
+   import { FileManagerImpl } from '@coursebook/file-manager';
    ```
 
 #### Option 2: Using local path
