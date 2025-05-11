@@ -11,6 +11,7 @@ This repository follows the [example-package](https://github.com/madooei/example
 
 - `packages` — Contains the primary package(s) for this repository (e.g., `file-manager`). Each package is self-contained and can be copied out and used independently.
 - `examples` — Contains examples of how to use the packages. Each example is a minimal, standalone project.
+- `playground` — Contains demos of the dependencies of the primary package(s). These are typically packages developed by others that are used in the primary package(s).
 - `docs` — Contains documentation for the primary package(s) and, optionally, for examples or other aspects of the repo.
 - `.github` — Contains GitHub-specific files, such as workflows and issue templates.
 
@@ -24,6 +25,7 @@ This repository follows the [example-package](https://github.com/madooei/example
 
 - To work on a package, go to `packages/<package-name>` and follow its README.
 - To try an example, go to `examples/<example-name>` and follow its README.
+- To run the playground, go to `playground/<package-name>` and follow its README.
 - For documentation, see the `docs` folder.
 
 ## Contributing
