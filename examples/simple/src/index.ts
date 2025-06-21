@@ -7,7 +7,7 @@ const fileManager = new FileManagerImpl();
 
 // Configure
 fileManager.setSourceDir("./source-folder");
-fileManager.setDestDir("./distination-folder");
+fileManager.setDestDir("./destination-folder");
 fileManager.setShouldClean(true);
 fileManager.setIgnorePatterns(["*.tmp", "*.log"]);
 

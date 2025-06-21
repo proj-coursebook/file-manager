@@ -1,24 +1,23 @@
 {
   "compilerOptions": {
-    // To use `await` directly in code without wrapping it in an async function
-    "target": "es2017", 
-
-    // Treat files as modules even if it doesn't use import/export
-    "moduleDetection": "force",
-
-    // Ignore module structure
-    "module": "Preserve",
-
-    // Allow JSON modules to be imported
-    "resolveJsonModule": true,
-
-    // Allow JS files to be imported from TS and vice versa
-    "allowJs": true,
-
-    // Use correct ESM import behavior
-    "esModuleInterop": true,
-
-    // Disallow features that require cross-file awareness
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
-  }
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node"],
+    "rootDir": ".",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }
