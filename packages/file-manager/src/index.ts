@@ -10,7 +10,7 @@ import {
   FileManagerError,
   FileManagerErrorType,
 } from "./types";
-import { LogManagerImpl, Logger } from "@coursebook/simple-logger";
+import { LogManagerImpl, Logger } from "@madooei/simple-logger";
 
 /**
  * Implementation of the FileManager component
@@ -30,7 +30,7 @@ class FileManagerImpl implements FileManager {
   setSourceDir(dir: string): void {
     this.logger.trace("Setting source directory:", dir);
     if (!dir) {
-      this.logger.error("Source directory is required");
+      this.logger.info("Source directory is required");
       throw new FileManagerError(
         FileManagerErrorType.SOURCE_DIR_NOT_SET,
         "Source directory is required",
@@ -81,7 +81,7 @@ class FileManagerImpl implements FileManager {
   async readFiles(): Promise<FileDataCollection> {
     this.logger.trace("Starting readFiles operation");
     if (!this.config.sourceDir) {
-      this.logger.error("Source directory not set");
+      this.logger.info("Source directory not set");
       throw new FileManagerError(
         FileManagerErrorType.SOURCE_DIR_NOT_SET,
         "Source directory must be set before reading files",
@@ -95,7 +95,7 @@ class FileManagerImpl implements FileManager {
       );
       await fs.access(this.config.sourceDir);
     } catch {
-      this.logger.error("Source directory not found:", this.config.sourceDir);
+      this.logger.info("Source directory not found:", this.config.sourceDir);
       throw new FileManagerError(
         FileManagerErrorType.SOURCE_DIR_NOT_FOUND,
         `Source directory not found: ${this.config.sourceDir}`,
@@ -133,7 +133,7 @@ class FileManagerImpl implements FileManager {
   async writeFiles(files: FileDataCollection): Promise<void> {
     this.logger.trace("Starting writeFiles operation");
     if (!this.config.destDir) {
-      this.logger.error("Destination directory not set");
+      this.logger.info("Destination directory not set");
       throw new FileManagerError(
         FileManagerErrorType.DEST_DIR_NOT_SET,
         "Destination directory must be set before writing files",
@@ -192,7 +192,7 @@ class FileManagerImpl implements FileManager {
       this.logger.trace("Successfully read file:", entry.relativePath);
       return { entry, contents };
     } catch (error) {
-      this.logger.error("Failed to read file:", entry.absolutePath, error);
+      this.logger.info("Failed to read file:", entry.absolutePath, error);
       throw new FileManagerError(
         FileManagerErrorType.FILE_READ_ERROR,
         `Failed to read file: ${entry.absolutePath}`,
@@ -208,7 +208,7 @@ class FileManagerImpl implements FileManager {
       await fs.writeFile(filepath, contents);
       this.logger.trace("Successfully wrote file:", filepath);
     } catch (error) {
-      this.logger.error("Failed to write file:", filepath, error);
+      this.logger.info("Failed to write file:", filepath, error);
       throw new FileManagerError(
         FileManagerErrorType.FILE_WRITE_ERROR,
         `Failed to write file: ${filepath}`,
@@ -224,7 +224,7 @@ class FileManagerImpl implements FileManager {
       await fs.mkdir(dir, { recursive: true });
       this.logger.trace("Successfully cleaned directory:", dir);
     } catch (error) {
-      this.logger.error("Failed to clean directory:", dir, error);
+      this.logger.info("Failed to clean directory:", dir, error);
       throw new FileManagerError(
         FileManagerErrorType.CLEAN_ERROR,
         `Failed to clean directory: ${dir}`,

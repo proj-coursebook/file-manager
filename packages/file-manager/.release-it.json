@@ -1,0 +1,23 @@
+{
+  "git": {
+    "commitMessage": "chore: release v${version}",
+    "tag": true,
+    "push": true,
+    "requireCleanWorkingDir": true
+  },
+  "npm": {
+    "publish": true,
+    "access": "public"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}",
+    "autoGenerate": {
+      "changelog": true
+    }
+  },
+  "hooks": {
+    "before:init": ["npm run validate"],
+    "after:bump": "npm run build"
+  }
+}
