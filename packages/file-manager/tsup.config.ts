@@ -10,6 +10,7 @@ export default defineConfig({
   dts: true,
   splitting: true,
   treeshake: true,
+  external: ["fast-glob"],
   esbuildOptions(options) {
     options.alias = {
       "@": "./src",
