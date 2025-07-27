@@ -269,6 +269,28 @@ describe("FileManager", () => {
       );
     });
 
+    it("should handle file removal errors during clean", async () => {
+      // Create existing files in destination directory
+      await fs.writeFile(join(destDir, "existing.txt"), "existing content");
+
+      // Mock fs.rm to throw (file removal fails)
+      const rmError = new Error("Permission denied");
+      vi.spyOn(fs, "rm").mockRejectedValueOnce(rmError);
+
+      fileManager.setShouldClean(true);
+      const files = {
+        "test.txt": { contents: Buffer.from("content") },
+      };
+
+      await expect(fileManager.writeFiles(files)).rejects.toThrow(
+        new FileManagerError(
+          FileManagerErrorType.CLEAN_ERROR,
+          `Failed to clean directory: ${destDir}`,
+          rmError,
+        ),
+      );
+    });
+
     afterEach(() => {
       vi.restoreAllMocks();
     });
