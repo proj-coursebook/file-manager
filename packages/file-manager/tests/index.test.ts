@@ -251,9 +251,9 @@ describe("FileManager", () => {
     });
 
     it("should handle directory clean errors", async () => {
-      // Mock fs.rm to throw
-      const rmError = new Error("Mock rm error");
-      vi.spyOn(fs, "rm").mockRejectedValueOnce(rmError);
+      // Mock fs.access to throw (directory doesn't exist)
+      const accessError = new Error("Directory does not exist");
+      vi.spyOn(fs, "access").mockRejectedValueOnce(accessError);
 
       fileManager.setShouldClean(true);
       const files = {
@@ -264,7 +264,7 @@ describe("FileManager", () => {
         new FileManagerError(
           FileManagerErrorType.CLEAN_ERROR,
           `Failed to clean directory: ${destDir}`,
-          rmError,
+          accessError,
         ),
       );
     });
