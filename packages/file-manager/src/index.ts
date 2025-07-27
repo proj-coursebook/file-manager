@@ -33,7 +33,7 @@ class FileManagerImpl implements FileManager {
       this.logger.info("Source directory is required");
       throw new FileManagerError(
         FileManagerErrorType.SOURCE_DIR_NOT_SET,
-        "Source directory is required",
+        "Source directory is required"
       );
     }
     this.config.sourceDir = dir;
@@ -61,7 +61,7 @@ class FileManagerImpl implements FileManager {
     ];
     this.logger.info(
       "Ignore patterns updated, total patterns:",
-      this.config.ignorePatterns.length,
+      this.config.ignorePatterns.length
     );
     this.logger.trace("Full ignore patterns:", this.config.ignorePatterns);
   }
@@ -84,21 +84,21 @@ class FileManagerImpl implements FileManager {
       this.logger.info("Source directory not set");
       throw new FileManagerError(
         FileManagerErrorType.SOURCE_DIR_NOT_SET,
-        "Source directory must be set before reading files",
+        "Source directory must be set before reading files"
       );
     }
 
     try {
       this.logger.trace(
         "Verifying source directory exists:",
-        this.config.sourceDir,
+        this.config.sourceDir
       );
       await fs.access(this.config.sourceDir);
     } catch {
       this.logger.info("Source directory not found:", this.config.sourceDir);
       throw new FileManagerError(
         FileManagerErrorType.SOURCE_DIR_NOT_FOUND,
-        `Source directory not found: ${this.config.sourceDir}`,
+        `Source directory not found: ${this.config.sourceDir}`
       );
     }
 
@@ -110,7 +110,7 @@ class FileManagerImpl implements FileManager {
 
     this.logger.trace("Reading file contents");
     const results = await Promise.all(
-      entries.map((entry) => this.readFile(entry)),
+      entries.map((entry) => this.readFile(entry))
     );
     this.logger.trace("Finished reading all files");
 
@@ -125,7 +125,7 @@ class FileManagerImpl implements FileManager {
 
     this.logger.info(
       "Successfully read all files, total count:",
-      Object.keys(files).length,
+      Object.keys(files).length
     );
     return files;
   }
@@ -136,7 +136,7 @@ class FileManagerImpl implements FileManager {
       this.logger.info("Destination directory not set");
       throw new FileManagerError(
         FileManagerErrorType.DEST_DIR_NOT_SET,
-        "Destination directory must be set before writing files",
+        "Destination directory must be set before writing files"
       );
     }
 
@@ -156,7 +156,7 @@ class FileManagerImpl implements FileManager {
         const destPath = join(this.config.destDir!, relativePath);
         this.logger.trace("Writing file:", destPath);
         await this.writeFile(destPath, file.contents);
-      }),
+      })
     );
 
     this.logger.info("Successfully wrote all files");
@@ -181,7 +181,7 @@ class FileManagerImpl implements FileManager {
           absolutePath,
           stats,
         };
-      }),
+      })
     );
   }
 
@@ -196,7 +196,7 @@ class FileManagerImpl implements FileManager {
       throw new FileManagerError(
         FileManagerErrorType.FILE_READ_ERROR,
         `Failed to read file: ${entry.absolutePath}`,
-        error as Error,
+        error as Error
       );
     }
   }
@@ -212,7 +212,7 @@ class FileManagerImpl implements FileManager {
       throw new FileManagerError(
         FileManagerErrorType.FILE_WRITE_ERROR,
         `Failed to write file: ${filepath}`,
-        error as Error,
+        error as Error
       );
     }
   }
@@ -220,15 +220,16 @@ class FileManagerImpl implements FileManager {
   private async cleanDirectory(dir: string): Promise<void> {
     this.logger.trace("Cleaning directory:", dir);
     try {
-      await fs.rm(dir, { recursive: true, force: true });
-      await fs.mkdir(dir, { recursive: true });
+      for (const file of await fs.readdir(dir)) {
+        await fs.rm(join(dir, file), { recursive: true, force: true });
+      }
       this.logger.trace("Successfully cleaned directory:", dir);
     } catch (error) {
       this.logger.info("Failed to clean directory:", dir, error);
       throw new FileManagerError(
         FileManagerErrorType.CLEAN_ERROR,
         `Failed to clean directory: ${dir}`,
-        error as Error,
+        error as Error
       );
     }
   }
