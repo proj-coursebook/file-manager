@@ -159,7 +159,24 @@ class FileManagerImpl implements FileManager {
       }),
     );
 
-    this.logger.info("Successfully wrote all files");
+    // Final sync of the destination directory to ensure all operations are committed
+    try {
+      const destFd = await fs.open(this.config.destDir, "r");
+      try {
+        await destFd.sync();
+        this.logger.trace("Final sync of destination directory completed");
+      } finally {
+        await destFd.close();
+      }
+    } catch (error) {
+      // Log but don't fail - the individual file syncs are more important
+      this.logger.trace(
+        "Warning: Could not sync destination directory:",
+        error,
+      );
+    }
+
+    this.logger.info("Successfully wrote and synced all files");
   }
 
   private async findFiles(): Promise<FileEntry[]> {
@@ -206,7 +223,16 @@ class FileManagerImpl implements FileManager {
     try {
       await fs.mkdir(dirname(filepath), { recursive: true });
       await fs.writeFile(filepath, contents);
-      this.logger.trace("Successfully wrote file:", filepath);
+
+      // Force sync to disk to ensure file is actually written
+      const fd = await fs.open(filepath, "r+");
+      try {
+        await fd.sync();
+      } finally {
+        await fd.close();
+      }
+
+      this.logger.trace("Successfully wrote and synced file:", filepath);
     } catch (error) {
       this.logger.info("Failed to write file:", filepath, error);
       throw new FileManagerError(
@@ -223,10 +249,24 @@ class FileManagerImpl implements FileManager {
       // Check if directory exists first
       await fs.access(dir);
 
-      for (const file of await fs.readdir(dir)) {
-        await fs.rm(join(dir, file), { recursive: true, force: true });
+      const files = await fs.readdir(dir);
+
+      // Remove all files/directories
+      await Promise.all(
+        files.map((file) =>
+          fs.rm(join(dir, file), { recursive: true, force: true }),
+        ),
+      );
+
+      // Force sync the parent directory to ensure deletions are committed
+      const parentFd = await fs.open(dir, "r");
+      try {
+        await parentFd.sync();
+      } finally {
+        await parentFd.close();
       }
-      this.logger.trace("Successfully cleaned directory:", dir);
+
+      this.logger.trace("Successfully cleaned and synced directory:", dir);
     } catch (error) {
       this.logger.info("Failed to clean directory:", dir, error);
       throw new FileManagerError(
