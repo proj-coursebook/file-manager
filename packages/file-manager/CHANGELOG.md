@@ -2,14 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-
-
 # [0.4.0](https://github.com/proj-coursebook/file-manager/compare/v0.3.0...v0.4.0) (2025-07-28)
-
 
 ### Features
 
-* enhance file and directory operations with final sync to ensure data integrity ([cdb876e](https://github.com/proj-coursebook/file-manager/commit/cdb876ede2338d444a96a6a8422a460e0e8b219f))
+- enhance file and directory operations with final sync to ensure data integrity ([cdb876e](https://github.com/proj-coursebook/file-manager/commit/cdb876ede2338d444a96a6a8422a460e0e8b219f))
 
 # [0.3.0](https://github.com/proj-coursebook/file-manager/compare/v0.2.0...v0.3.0) (2025-07-27)
 
